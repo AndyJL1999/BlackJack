@@ -5,144 +5,150 @@ double cash;//Global declaration
 
 void Game::play()
 {
-    srand(time(0));//random number generator - used in Deck.cpp
-    //initialization
-    char choice = ' ';
-    double bet = 0;
-
-    cout << "Money: $" << cash << endl;//Displays money after every round
-    cout << "How much will you be betting? $";
-    cin >> bet;
-    while (bet > cash || cin.fail())
+    try
     {
-        if(cin.fail())
+        srand(time(NULL));//random number generator - used in Deck.cpp
+        //initialization
+        char choice = ' ';
+        int bet = 0;
+
+        cout << "Money: $" << cash << endl;//Displays money after every round
+        cout << "How much will you be betting? $";
+        cin >> bet;
+        while (bet > cash || cin.fail())
         {
-            cin.clear();
-            cin.ignore(INT_MAX, '\n');
-            cout << "Please enter numbers only no characters! Try again. - $";
-            cin >> bet;
+            if (cin.fail())
+            {
+                cin.clear();
+                cin.ignore(INT_MAX, '\n');
+                cout << "Please enter numbers only no characters! Try again. - $";
+                cin >> bet;
+            }
+            else
+            {
+                cout << "You cannot bet more than your total money. Try again. - $";
+                cin >> bet;
+            }
         }
-        else
-        {
-            cout << "You cannot bet more than your total money. Try again. - $";
-            cin >> bet;
-        }
-    }
 
-    Player player(cash, bet);//player object
-    player.showBet();//display the bet
-    cout << endl;
+        Player player(cash, bet);//player object
+        player.showBet();//display the bet
+        cout << endl;
 
-    Player dealer;//computer object
+        Player dealer;//computer object
 
-    Deck deck;
-    deck.createDeck();
-    deck.showDeck();//Displays deck and shuffles it
-    cout << endl << endl;
+        deck.showDeck();//Displays deck and shuffles it
+        cout << endl << endl;
 
-    cout << "\tPlayer\t\t\t\t" << "Computer\n";
-    cout << "__________________________________________________________________________\n";
+        cout << "\tPlayer\t\t\t\t" << "Computer\n";
+        cout << "__________________________________________________________________________\n";
 
-    player.addCard();//Gives player a card
-    player.showScore();
-    cout << "\t|" << setw(20);
-    dealer.addCard();//Gives computer a card
-    dealer.showScore();
-    cout << endl;
-
-    cout << "\nDo you want to hit or stand? (h/s) ";
-    cin >> choice;
-    while (choice != 'h' && choice != 's')//while loop to ensure player only presses 'h' or 's'
-    {
-        cout << "Press 'h' to hit and 's' to stand no other choices. ";
-        cin >> choice;
-    }
-    while (choice == 'h')//while loop that takes players decision to hit
-    {
-        player.addCard();
+        player.addCard();//Gives player a card
         player.showScore();
-
-        if (player.win())// if statement to determine if player wins
-        {
-            cout << "\n****BlackJack! You Win!****\n";
-            cash += (bet*2);//adding to money
-            break;//end loop
-        }
-        else if (player.lose())//determines if player loses
-        {
-            cout << "\n\n****Bust! You Lose!****\n";
-            cash -= bet;//subtracting from money
-            break;
-        }
+        cout << "\t|" << setw(20);
+        dealer.addCard();//Gives computer a card
+        dealer.showScore();
+        cout << endl;
 
         cout << "\nDo you want to hit or stand? (h/s) ";
         cin >> choice;
 
-        while (choice != 'h' && choice != 's')
+        while (choice != 'h' && choice != 's')//while loop to ensure player only presses 'h' or 's'
         {
             cout << "Press 'h' to hit and 's' to stand no other choices. ";
             cin >> choice;
         }
-
-    } 
-
-    if (choice == 's')//if player decides to stand the computer hits
-    {
-        cout << setw(55);
-        cout << "__________________________________________________________________________\n";
-        cout << "\t\t\tComputer is drawing\n\n";
-
-        cout << "\tPlayer\t\t\t\t" << "Computer\n";
-        cout << "__________________________________________________________________________\n";
-  
-        player.showScore();
-        cout << "\t\t|" << setw(30);
-        dealer.showScore();
-        cout << endl;
-
-        while (dealer.getScore() < 18)
+        while (choice == 'h')//while loop that takes players decision to hit
         {
-            cout << setw(25);
-            cout << "|" << setw(20);
-            dealer.addCard();
-            cout << " ";
-            dealer.showScore();
-            cout << endl;
+            player.addCard();
+            player.showScore();
 
-            if (dealer.getScore() == 21 || dealer.getScore() > player.getScore() && dealer.getScore() < 21)//If coomputer score equal 21 they win && if computer score is greater than the player's but less than 21
+            if (player.win())// if statement to determine if player wins
             {
-                cout << "\n\t\t*********Computer Wins!********\n";
-                cash -= bet;
+                cout << "\n****BlackJack! You Win!****\n";
+                cash += (bet * 2);//adding to money
+                break;//end loop
+            }
+            else if (player.lose())//determines if player loses
+            {
+                cout << "\n\n****Bust! You Lose!****\n";
+                cash -= bet;//subtracting from money
                 break;
             }
-            else if (dealer.getScore() > 21)//if computer goes over 21 they bust and player wins
+
+            cout << "\nDo you want to hit or stand? (h/s) ";
+            cin >> choice;
+
+            while (choice != 'h' && choice != 's')
             {
-                cout << "\n\t\t*****Computer Bust! Player Wins!*****\n";
-                cash += (bet*2);
-                break;
-            }
-            else if (dealer.getScore() >= 18 && dealer.getScore() < player.getScore())//if computer is over 18 but under 21 and the player still has higher score
-            {
-                cout << "\n\t\t**********Player Wins!***********\n";
-                cash += (bet * 2);
-                break;
-            }
-            else if (dealer.getScore() == player.getScore() && dealer.getScore() > 18)//if dealer and player have the same score its a tie
-            {
-                cout << "\n\t\t*****TIE!*****\n";
-                break;
+                cout << "Press 'h' to hit and 's' to stand no other choices. ";
+                cin >> choice;
             }
 
         }
 
+        if (choice == 's')//if player decides to stand the computer hits
+        {
+            cout << setw(55);
+            cout << "__________________________________________________________________________\n";
+            cout << "\t\t\tComputer is drawing\n\n";
+
+            cout << "\tPlayer\t\t\t\t" << "Computer\n";
+            cout << "__________________________________________________________________________\n";
+
+            player.showScore();
+            cout << "\t\t|" << setw(30);
+            dealer.showScore();
+            cout << endl;
+
+            while (dealer.getScore() < 18)
+            {
+                cout << setw(25);
+                cout << "|" << setw(20);
+                dealer.addCard();
+                cout << " ";
+                dealer.showScore();
+                cout << endl;
+
+                if (dealer.getScore() == 21 || dealer.getScore() > player.getScore() && dealer.getScore() < 21)//If coomputer score equal 21 they win && if computer score is greater than the player's but less than 21
+                {
+                    cout << "\n\t\t*********Computer Wins!********\n";
+                    cash -= bet;
+                    break;
+                }
+                else if (dealer.getScore() > 21)//if computer goes over 21 they bust and player wins
+                {
+                    cout << "\n\t\t*****Computer Bust! Player Wins!*****\n";
+                    cash += (bet * 2);
+                    break;
+                }
+                else if (dealer.getScore() >= 18 && dealer.getScore() < player.getScore())//if computer is over 18 but under 21 and the player still has higher score
+                {
+                    cout << "\n\t\t**********Player Wins!***********\n";
+                    cash += (bet * 2);
+                    break;
+                }
+                else if (dealer.getScore() == player.getScore() && dealer.getScore() > 18)//if dealer and player have the same score its a tie
+                {
+                    cout << "\n\t\t*****TIE!*****\n";
+                    break;
+                }
+            }
+
+        }
+
+        cout << endl;
+
+        if (cash == 0)//If player runs out of money the game is over
+        {
+            cout << "Out of Money! GAME OVER!\n";
+            exit(0);
+        }
     }
-
-    cout << endl;
-
-    if (cash == 0)//If player runs out of money the game is over
+    catch(string str)
     {
-        cout << "Out of Money! GAME OVER!\n";
-        exit(0);
+        cout << str << endl;
+        return;
     }
 }
 void Game::moneyUI()

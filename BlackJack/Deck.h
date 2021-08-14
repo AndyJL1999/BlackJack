@@ -4,19 +4,24 @@
 #include <iostream>
 #include <stdio.h>
 #include <ctime>
+#include <vector>
 #include "Card.h"
 using namespace std;
 
 class Deck : virtual public Card
 {
 protected:
-	int* cards;//array declaration
+	static vector<int> cards;//vector declaration
 public:
-	void setCards()
+    void setCards()
 	{
 		cards = createDeck();
 	}
-	int *createDeck();
+	void addCard()
+	{
+		displayCard(deal());
+	}
+	vector<int> createDeck();
 	void shuffle();
 	void showDeck();
 	int deal();

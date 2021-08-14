@@ -10,16 +10,17 @@ int main()
     char choice;
     Game UI;
     UI.moneyUI();
+
+    Game CasinoTime;
+
     do
     {
         system("cls");
-        Game CasinoTime;
 
         CasinoTime.play();
         cout << "Do you want to play again? (y/n)\n";
         cin >> choice;
     } while (choice == 'Y' || choice == 'y');
-    
     cout << "\nGood Bye!\n";
     return 0;
 }

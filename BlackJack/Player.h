@@ -2,10 +2,10 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include <iostream>
-#include "Hand.h"
+#include "Deck.h"
 using namespace std;
 
-class Player : virtual public Hand
+class Player : virtual public Deck
 {
 private:
 	double money;
