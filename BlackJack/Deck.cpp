@@ -5,7 +5,7 @@ vector<int> Deck::cards;
 vector<int> Deck::createDeck()
 {
 	//Initializing deck array
-	static vector<int> deck = { TWO , THREE, FOUR , FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE,
+	vector<int> deck = { TWO , THREE, FOUR , FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE,
 	TWO , THREE, FOUR , FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE,
 	TWO , THREE, FOUR , FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE, 
 	TWO , THREE, FOUR , FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE };
